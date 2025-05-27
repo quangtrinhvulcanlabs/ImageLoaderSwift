@@ -65,7 +65,7 @@ public struct ImageLoader {
 
         let session: URLSession
         let storage = HashStorage<URL, Loader>()
-        var disk = Disk()
+        public let disk = Disk()
 
         init(configuration: URLSessionConfiguration = .default) {
             self.session = URLSession(configuration: .default, delegate: ImageLoader.session, delegateQueue: nil)
