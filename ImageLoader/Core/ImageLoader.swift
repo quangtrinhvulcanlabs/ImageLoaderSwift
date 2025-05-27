@@ -26,14 +26,14 @@ public struct ImageLoader {
         return Session.shared
     }
 
-    static var manager: ImageLoader.LoaderManager {
+    public static var manager: ImageLoader.LoaderManager {
         return Session.manager
     }
 
     class Session: NSObject, URLSessionDataDelegate {
 
         static let shared = Session()
-        static let manager = LoaderManager()
+        public static let manager = LoaderManager()
 
         func urlSession(_ session: URLSession, dataTask: URLSessionDataTask, didReceive data: Data) {
             guard let loader = getLoader(with: dataTask) else { return }
@@ -61,7 +61,7 @@ public struct ImageLoader {
         }
     }
 
-    class LoaderManager {
+    public class LoaderManager {
 
         let session: URLSession
         let storage = HashStorage<URL, Loader>()
