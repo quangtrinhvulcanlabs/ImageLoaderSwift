@@ -71,7 +71,7 @@ extension UIImage {
         return UIGraphicsGetImageFromCurrentImageContext()!
     }
 
-    internal static func process(data: Data) -> UIImage? {
+    public static func process(data: Data) -> UIImage? {
         switch data.fileType {
         case .gif:
             guard let source = CGImageSourceCreateWithData(data as CFData, nil) else { return nil }
