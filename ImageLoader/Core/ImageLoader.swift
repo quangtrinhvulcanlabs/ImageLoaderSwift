@@ -21,19 +21,29 @@ public struct ImageLoader {
 
         return loader
     }
+    
+    @discardableResult
+    public static func getCachedImage(with url: URLLiteralConvertible, onCompletion: @escaping (UIImage?, Error?, FetchOperation) -> Void) -> UIImage? {
+        guard let imageLoaderUrl = url.imageLoaderURL else { return nil }
+        if let data = ImageLoader.manager.disk.get(imageLoaderUrl), let image = UIImage.process(data: data) {
+            return image
+        }
+
+        return nil
+    }
 
     static var session: ImageLoader.Session {
         return Session.shared
     }
 
-    public static var manager: ImageLoader.LoaderManager {
+    static var manager: ImageLoader.LoaderManager {
         return Session.manager
     }
 
     class Session: NSObject, URLSessionDataDelegate {
 
         static let shared = Session()
-        public static let manager = LoaderManager()
+        static let manager = LoaderManager()
 
         func urlSession(_ session: URLSession, dataTask: URLSessionDataTask, didReceive data: Data) {
             guard let loader = getLoader(with: dataTask) else { return }
@@ -61,11 +71,11 @@ public struct ImageLoader {
         }
     }
 
-    public class LoaderManager {
+    class LoaderManager {
 
         let session: URLSession
         let storage = HashStorage<URL, Loader>()
-        public var disk = Disk()
+        var disk = Disk()
 
         init(configuration: URLSessionConfiguration = .default) {
             self.session = URLSession(configuration: .default, delegate: ImageLoader.session, delegateQueue: nil)
