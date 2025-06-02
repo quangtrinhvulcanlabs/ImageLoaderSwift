@@ -23,7 +23,7 @@ public struct ImageLoader {
     }
     
     @discardableResult
-    public static func getCachedImage(with url: URLLiteralConvertible, onCompletion: @escaping (UIImage?, Error?, FetchOperation) -> Void) -> UIImage? {
+    public static func getCachedImage(with url: URLLiteralConvertible) -> UIImage? {
         guard let imageLoaderUrl = url.imageLoaderURL else { return nil }
         if let data = ImageLoader.manager.disk.get(imageLoaderUrl), let image = UIImage.process(data: data) {
             return image
