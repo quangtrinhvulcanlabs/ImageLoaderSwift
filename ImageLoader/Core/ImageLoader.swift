@@ -31,6 +31,12 @@ public struct ImageLoader {
 
         return nil
     }
+    
+    
+    public static func saveImage(with url: URLLiteralConvertible, data: Data) {
+        guard let imageLoaderUrl = url.imageLoaderURL else { return }
+        ImageLoader.manager.disk.set(data, forKey: imageLoaderUrl.absoluteString)
+    }
 
     static var session: ImageLoader.Session {
         return Session.shared
